@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"zekryptofolio","appId":"1:1007779005570:android:707d971bed3a957068609b","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"zekryptofolio","configurations":{"android":"1:1007779005570:android:707d971bed3a957068609b","ios":"1:1007779005570:ios:410bb3773a0a449268609b"}}}}}}

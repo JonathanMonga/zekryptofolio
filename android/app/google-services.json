@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1007779005570",
+    "project_id": "zekryptofolio",
+    "storage_bucket": "zekryptofolio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007779005570:android:707d971bed3a957068609b",
+        "android_client_info": {
+          "package_name": "com.zeguild.zekryptofolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjOCCLkhQ16WrvSX7-5WRV8Ojp97CeG6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
