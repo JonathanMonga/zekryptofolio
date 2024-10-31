@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:zekryptofolio/services/api.dart';
@@ -170,8 +169,7 @@ class _TransactionsFormState extends State<TransactionsForm> {
                         widget.coin["id"],
                         widget.coin["image"],
                         _amount!,
-                        widget.coin["current_price"] + 0.0,
-                        Timestamp.fromDate(date));
+                        widget.coin["current_price"] + 0.0,);
 
                     Navigator.pushNamedAndRemoveUntil(
                       context,
