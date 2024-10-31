@@ -42,7 +42,10 @@ class SummaryItem extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text('${coin["name"]}',
+                        Text(
+                            '${coin["name"]}'.length >= 11
+                                ? '${coin["name"]}'.substring(0, 11)
+                                : '${coin["name"]}',
                             style: const TextStyle(fontSize: 15)),
                         const SizedBox(
                           width: 8,
@@ -50,7 +53,7 @@ class SummaryItem extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '$amount',
+                      amount.toStringAsFixed(2),
                       style: TextStyle(
                           fontSize: 12,
                           color: (coin["price_change_percentage_24h"] < 0)

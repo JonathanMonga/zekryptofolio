@@ -172,7 +172,7 @@ class _SummaryListWidgetState extends State<_SummaryListWidget> {
                             ),
                             Expanded(
                               flex: 5,
-                              child: Text('\$$totalValue',
+                              child: Text('\$${totalValue.toStringAsFixed(2)}',
                                   textAlign: TextAlign.right,
                                   style: const TextStyle(
                                       fontSize: 15,
@@ -329,7 +329,8 @@ class PieChartState extends State<PortfolioPieChart> {
         PieChartSectionData(
           color: colors[i],
           value: summary[i]["total"] + 0.0,
-          title: ((summary[i]["total"] / totalValue) * 100).toStringAsFixed(2),
+          title: ((summary[i]["total"] / totalValue) * 100).toStringAsFixed(2) +
+              "%",
           radius: radius,
           titleStyle: TextStyle(
             fontSize: fontSize,

@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
       body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-            image: AssetImage('assets/Background.jpg'),
+            image: AssetImage('assets/Background_base.jpg'),
             fit: BoxFit.cover,
           )),
           child: ListView(
@@ -42,18 +42,6 @@ class Body extends StatelessWidget {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil('/', (route) => false);
                 },
-              ),
-              Button(
-                color: const Color.fromARGB(255, 94, 213, 168),
-                icon: FontAwesomeIcons.userFriends,
-                text: "Join community",
-                press: () => Navigator.pushNamed(context, '/community'),
-              ),
-              Button(
-                color: const Color.fromARGB(255, 94, 213, 168),
-                icon: FontAwesomeIcons.questionCircle,
-                text: "Help and Support",
-                press: () => Navigator.pushNamed(context, '/support'),
               ),
             ],
           )),
