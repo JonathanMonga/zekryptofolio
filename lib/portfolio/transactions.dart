@@ -29,7 +29,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: const Color.fromARGB(255, 27, 35, 42),
+                backgroundColor: const Color.fromARGB(255, 33, 33, 33),
                 title: Row(
                   children: const [
                     Expanded(

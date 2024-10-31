@@ -6,7 +6,7 @@ import 'package:zekryptofolio/services/api.dart';
 import '../services/firestore.dart';
 
 class TransactionsForm extends StatefulWidget {
-  final coin;
+  final Map coin;
 
   const TransactionsForm({Key? key, required this.coin}) : super(key: key);
 
@@ -15,7 +15,7 @@ class TransactionsForm extends StatefulWidget {
 }
 
 class _TransactionsFormState extends State<TransactionsForm> {
-  int? _amount;
+  double? _amount;
   DateTime date = DateTime.now();
   late num price = widget.coin["current_price"];
 
@@ -55,7 +55,7 @@ class _TransactionsFormState extends State<TransactionsForm> {
           return "You must specify an amount.";
         }
 
-        int? amount = int.tryParse(value);
+        double? amount = double.tryParse(value);
 
         if (amount == null) {
           return 'Amount is required';
@@ -64,7 +64,7 @@ class _TransactionsFormState extends State<TransactionsForm> {
         return null;
       },
       onSaved: (String? value) {
-        _amount = int.tryParse(value!);
+        _amount = double.tryParse(value!);
       },
     );
   }
@@ -97,7 +97,7 @@ class _TransactionsFormState extends State<TransactionsForm> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 27, 35, 42),
+            backgroundColor: const Color.fromARGB(255, 33, 33, 33),
             title: const Text("New transaction")),
         body: Container(
           decoration: const BoxDecoration(
@@ -167,7 +167,11 @@ class _TransactionsFormState extends State<TransactionsForm> {
                     _formKey.currentState!.save();
 
                     FirestoreService().addTransaction(
-                        widget.coin["id"], _amount!, Timestamp.fromDate(date));
+                        widget.coin["id"],
+                        widget.coin["image"],
+                        _amount!,
+                        widget.coin["current_price"] + 0.0,
+                        Timestamp.fromDate(date));
 
                     Navigator.pushNamedAndRemoveUntil(
                       context,

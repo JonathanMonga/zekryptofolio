@@ -1,9 +1,7 @@
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-// Import the firebase_core plugin
-import 'package:firebase_core/firebase_core.dart';
-import 'package:zekryptofolio/firebase_options.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zekryptofolio/routes.dart';
 import 'package:zekryptofolio/services/firestore.dart';
 import 'package:zekryptofolio/theme.dart';
@@ -11,15 +9,13 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.playIntegrity,
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
   );
-
-  runApp(App());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (_) => runApp(App()),
+  );
 }
 
 /// We are using a StatefulWidget such that we only create the [Future] once,
@@ -39,7 +35,20 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   /// The future is part of the state of our widget. We should not call `initializeApp`
   /// directly inside [build].
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<Supabase> _initialization = Supabase.initialize(
+    url: 'https://fxehisghelgctxlovwpt.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4ZWhpc2doZWxnY3R4bG92d3B0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAxMDI2OTEsImV4cCI6MjA0NTY3ODY5MX0.B1_XDiokch-h-jxg73Ioq9SgbGYQ-BI-6BkIQaeTl3I',
+    authOptions: const FlutterAuthClientOptions(
+      authFlowType: AuthFlowType.pkce,
+    ),
+    realtimeClientOptions: const RealtimeClientOptions(
+      logLevel: RealtimeLogLevel.info,
+    ),
+    storageOptions: const StorageClientOptions(
+      retryAttempts: 10,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {

@@ -1,144 +1,133 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:zekryptofolio/services/api.dart';
-import 'package:zekryptofolio/services/auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FirestoreService {
-  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final currentUser = Supabase.instance.client.auth.currentUser;
 
-  Future<List> getFavourites() async {
-    final user = AuthService().user!;
+  Future<List<Map<String, dynamic>>> getFavourites() async {
     try {
-      var ref = db.collection('users').doc(user.uid);
-      var snapshot = await ref.get();
-      if (snapshot.exists) {
-        var data = snapshot.data()!;
-        if (data["favourites"].length == 0) {
-          return [];
-        }
-
-        var favouriteCoinsData =
-            await Api().fetchMarketData(coins: data["favourites"]);
-
-        return favouriteCoinsData;
-      } else {
-        return [];
-      }
+      return Supabase.instance.client
+          .from('favourites')
+          .select()
+          .eq("user_id", currentUser!.id);
     } catch (error) {
       return [];
     }
   }
 
-  void addFavourite(String id) async {
-    try {
-      var user = AuthService().user!;
-      var ref = db.collection('users').doc(user.uid);
-      var data = {
-        'favourites': FieldValue.arrayUnion([id])
-      };
-      await ref.set(data, SetOptions(merge: true));
-    } catch (error) {}
+  void addFavourite(String coin) async {
+    await Supabase.instance.client
+        .from('favourites')
+        .insert({'coins': coin, 'user_id': currentUser!.id});
   }
 
   void removeFavourite(String id) async {
-    try {
-      var user = AuthService().user!;
-      var ref = db.collection('users').doc(user.uid);
-      var data = {
-        'favourites': FieldValue.arrayRemove([id])
-      };
-      await ref.set(data, SetOptions(merge: true));
-    } catch (error) {}
+    await Supabase.instance.client
+        .from('favourites')
+        .delete()
+        .eq('coins', id)
+        .eq("user_id", currentUser!.id);
   }
 
-  Future<Map> getSummary() async {
-    final user = AuthService().user!;
+  Future<List<Map<String, dynamic>>> getSummaries([String coinID = ""]) async {
     try {
-      var ref = db.collection('users').doc(user.uid);
-      var snapshot = await ref.get();
-
-      if (snapshot.exists) {
-        var data = snapshot.data()!;
-
-        if (!data.containsKey("portfolio")) {
-          return {};
-        }
-
-        if (!data["portfolio"].containsKey("summary")) {
-          return {};
-        }
-
-        return data["portfolio"]["summary"];
+      if (coinID.isEmpty) {
+        return Supabase.instance.client.from('summary').select().eq(
+              "user_id",
+              currentUser!.id,
+            );
       } else {
-        return {};
-      }
-    } catch (error) {
-      return {};
-    }
-  }
-
-  void addTransaction(String coinID, int amount, Timestamp time) async {
-    final user = AuthService().user!;
-
-    try {
-      var ref = db.collection('users').doc(user.uid);
-      var data = {"portfolio.summary.$coinID": FieldValue.increment(amount)};
-      await ref.update(data);
-
-      Map trans = {"coinID": coinID, "amount": amount, "time": time};
-
-      data = {
-        "portfolio.transactions": FieldValue.arrayUnion([trans])
-      };
-      await ref.update(data);
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future<List> getTransactions() async {
-    final user = AuthService().user!;
-    try {
-      var ref = db.collection('users').doc(user.uid);
-      var snapshot = await ref.get();
-
-      if (snapshot.exists) {
-        var data = snapshot.data()!;
-
-        if (!data.containsKey("portfolio")) {
-          return [];
-        }
-
-        if (!data["portfolio"].containsKey("transactions")) {
-          return [];
-        }
-
-        return data["portfolio"]["transactions"];
-      } else {
-        return [];
+        return Supabase.instance.client
+            .from('summary')
+            .select()
+            .eq(
+              "user_id",
+              currentUser!.id,
+            )
+            .eq("coins", coinID);
       }
     } catch (error) {
       return [];
     }
   }
 
-  Stream<Map?> streamFavourite() {
-    return AuthService().userStream.switchMap((user) {
-      if (user != null) {
-        var ref = db.collection('users').doc(user.uid);
-        return ref.snapshots().map((doc) {
-          if (doc.exists) {
-            return doc.data();
-          } else {
-            return {"favourites": []};
+  void addTransaction(String coinID, String image, double amount, double currentPrice, Timestamp time) async {
+    await Supabase.instance.client.from('transactions').insert(
+        {'coins': coinID, 'user_id': currentUser!.id, 'amount': amount});
+
+    addSummary(coinID, image, amount, currentPrice, time);
+  }
+
+  void addSummary(String coinID, String image, double amount, double currentPrice, Timestamp time) async {
+    var total = await getCoinTotal(coinID, currentPrice);
+    var summaries = await getSummaries(coinID);
+
+    if (summaries.isEmpty) {
+      await Supabase.instance.client.from('summary').insert(
+          {'coins': coinID, 'image': image, 'user_id': currentUser!.id, 'total': total});
+    } else {
+      await Supabase.instance.client
+          .from('summary')
+          .update({'total': total})
+          .eq("coins", coinID)
+          .eq("user_id", currentUser!.id);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getTransactions() async {
+    try {
+      return Supabase.instance.client
+          .from('transactions')
+          .select()
+          .eq("user_id", currentUser!.id);
+    } catch (error) {
+      return [];
+    }
+  }
+
+  Future<double> getCoinTotal(String coin, double currentPrice) async {
+    var total = 0.0;
+
+    try {
+      var transactions = await Supabase.instance.client
+          .from('transactions')
+          .select()
+          .eq("coins", coin);
+
+      if (transactions.isNotEmpty) {
+        for (var transaction in transactions) {
+          if (transaction["coins"] == coin) {
+            total += transaction["amount"] * currentPrice;
           }
-        });
+        }
+
+        return total;
       } else {
-        return Stream.fromIterable([
-          {"favourites": []}
-        ]);
+        return total;
       }
-    });
+    } catch (error) {
+      return total;
+    }
+  }
+
+  SupabaseStreamBuilder streamFavourite() {
+    Supabase.instance.client
+        .channel('public:favourites')
+        .onPostgresChanges(
+            event: PostgresChangeEvent.all,
+            schema: 'public',
+            table: 'favourites',
+            callback: (payload) {
+              debugPrint('Change received: ${payload.toString()}');
+            })
+        .subscribe();
+
+    return Supabase.instance.client
+        .from('favourites')
+        .stream(primaryKey: ['coin'])
+        .order('name')
+        .limit(10);
   }
 }

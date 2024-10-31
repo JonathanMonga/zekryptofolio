@@ -33,7 +33,7 @@ class TransactionsItem extends StatelessWidget {
               ),
               Expanded(
                 flex: 10,
-                child: Image.network(coin["image"]["small"],
+                child: Image.network(coin["image"],
                     width: 25, height: 25),
               ),
               Expanded(

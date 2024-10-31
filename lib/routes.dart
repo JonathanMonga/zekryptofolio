@@ -1,6 +1,7 @@
 import 'package:zekryptofolio/favourite/favourite.dart';
 import 'package:zekryptofolio/home/home.dart';
-import 'package:zekryptofolio/login/login.dart';
+import 'package:zekryptofolio/login/login_screen.dart';
+import 'package:zekryptofolio/login/register_screen.dart';
 import 'package:zekryptofolio/market/market.dart';
 import 'package:zekryptofolio/portfolio/portfolio.dart';
 import 'package:zekryptofolio/profile/profile.dart';
@@ -16,4 +17,5 @@ var appRoutes = {
   "/favourite": (context) => const FavouriteScreen(),
   "/community": (context) => const CommunityScreen(),
   "/support": (context) => const SupportScreen(),
+  "/register": (context) => const RegisterPage()
 };

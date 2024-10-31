@@ -47,11 +47,10 @@ class SummaryItem extends StatelessWidget {
                         const SizedBox(
                           width: 8,
                         ),
-                        Text('$amount', style: const TextStyle(fontSize: 15)),
                       ],
                     ),
                     Text(
-                      '${coin["current_price"] * amount}',
+                      '$amount',
                       style: TextStyle(
                           fontSize: 12,
                           color: (coin["price_change_percentage_24h"] < 0)

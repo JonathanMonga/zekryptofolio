@@ -1,11 +1,12 @@
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zekryptofolio/favourite/favourite.dart';
+import 'package:zekryptofolio/login/login_screen.dart';
 import 'package:zekryptofolio/market/market.dart';
 import 'package:zekryptofolio/portfolio/portfolio.dart';
 import 'package:zekryptofolio/profile/profile.dart';
 import 'package:zekryptofolio/services/auth.dart';
-import 'package:zekryptofolio/login/login.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,8 +18,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: AuthService().userStream,
+    return StreamBuilder<AuthState>(
+        stream: AuthService().getAuthStateChange(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -27,7 +28,33 @@ class _HomeState extends State<HomeScreen> {
               child: Text("Error", textDirection: TextDirection.ltr),
             );
           } else if (snapshot.hasData) {
-            return const MainScreen();
+            switch (snapshot.data!.event) {
+              case AuthChangeEvent.initialSession:
+                {
+                  if (snapshot.data!.session != null &&
+                      !snapshot.data!.session!.isExpired) {
+                    return const MainScreen();
+                  } else {
+                    return const LoginScreen();
+                  }
+                }
+              case AuthChangeEvent.signedIn:
+                return const MainScreen();
+              case AuthChangeEvent.signedOut:
+                return const LoginScreen();
+              case AuthChangeEvent.passwordRecovery:
+                return const MainScreen();
+              case AuthChangeEvent.tokenRefreshed:
+                return const MainScreen();
+              case AuthChangeEvent.userUpdated:
+                return const MainScreen();
+              case AuthChangeEvent.userDeleted:
+                return const LoginScreen();
+              case AuthChangeEvent.mfaChallengeVerified:
+                return const LoginScreen();
+              default:
+                return const LoginScreen();
+            }
           } else {
             return const LoginScreen();
           }
@@ -46,8 +73,8 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    MarketScreen(),
     PortfolioScreen(),
+    MarketScreen(),
     FavouriteScreen(),
     ProfileScreen(),
   ];
@@ -62,19 +89,19 @@ class _MainScreenState extends State<MainScreen> {
         showUnselectedLabels: true,
         iconSize: 20,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color.fromARGB(255, 27, 35, 42),
+        backgroundColor: const Color.fromARGB(255, 33, 33, 33),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.chartLine,
             ),
-            label: 'Market',
+            label: 'Porfolio',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.briefcase,
             ),
-            label: 'Porfolio',
+            label: 'Market',
           ),
           BottomNavigationBarItem(
             icon: Icon(

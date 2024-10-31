@@ -2,10 +2,8 @@ import "package:flutter/material.dart";
 import 'package:zekryptofolio/market/line_chart.dart';
 import 'package:zekryptofolio/portfolio/transactions_form.dart';
 import 'package:zekryptofolio/services/firestore.dart';
-import 'package:provider/provider.dart';
 
 class CoinScreen extends StatefulWidget {
-  // ignore: prefer_typing_uninitialized_variables
   final Map coin;
 
   const CoinScreen({Key? key, required this.coin}) : super(key: key);
@@ -25,23 +23,22 @@ class _CoinScreenState extends State<CoinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<Map>(context);
+    // var user = Provider.of<Map>(context);
     bool isAFavourite = false;
-    for (var favourite in user["favourites"]) {
-      if (favourite == widget.coin["id"]) {
-        isAFavourite = true;
-        break;
-      }
-    }
+    // for (var favourite in user["favourites"]) {
+    //   if (favourite == widget.coin["id"]) {
+    //     isAFavourite = true;
+    //     break;
+    //   }
+    // }
 
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 27, 35, 42),
+            backgroundColor: const Color.fromARGB(255, 33, 33, 33),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(widget.coin["name"]),
-                const Text("USD"),
               ],
             )),
         body: Container(
