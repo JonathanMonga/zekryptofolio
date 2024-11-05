@@ -30,6 +30,8 @@ dependencies:
 
   random_color: ^1.0.6-nullsafety
   google_fonts: ^6.2.1
+  dio: ^5.7.0
+  coingecko_api: ^2.0.1
 
 dev_dependencies:
   flutter_test:

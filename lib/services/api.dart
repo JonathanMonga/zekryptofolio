@@ -36,6 +36,7 @@ class Api {
     String formattedDays = (days == -1) ? "max" : days.toString();
     String query =
         "/coins/${id}/market_chart?days=${formattedDays}&vs_currency=usd";
+        
     if (days == -1) query += "&interval=daily";
     try {
       final response = await http.get(Uri.parse(_url + query));
