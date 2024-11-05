@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class FirestoreService {
+class SupabaseService {
   final currentUser = Supabase.instance.client.auth.currentUser;
 
   Future<List<Map<String, dynamic>>> getFavourites() async {
@@ -52,20 +52,26 @@ class FirestoreService {
     }
   }
 
-  void addTransaction(String coinID, String image, double amount, double currentPrice) async {
+  void addTransaction(
+      String coinID, String image, double amount, double currentPrice) async {
     await Supabase.instance.client.from('transactions').insert(
         {'coins': coinID, 'user_id': currentUser!.id, 'amount': amount});
 
     addSummary(coinID, image, amount, currentPrice);
   }
 
-  void addSummary(String coinID, String image, double amount, double currentPrice) async {
+  void addSummary(
+      String coinID, String image, double amount, double currentPrice) async {
     var total = await getCoinTotal(coinID, currentPrice);
     var summaries = await getSummaries(coinID);
 
     if (summaries.isEmpty) {
-      await Supabase.instance.client.from('summary').insert(
-          {'coins': coinID, 'image': image, 'user_id': currentUser!.id, 'total': total});
+      await Supabase.instance.client.from('summary').insert({
+        'coins': coinID,
+        'image': image,
+        'user_id': currentUser!.id,
+        'total': total
+      });
     } else {
       await Supabase.instance.client
           .from('summary')

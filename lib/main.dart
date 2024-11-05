@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zekryptofolio/routes.dart';
-import 'package:zekryptofolio/services/firestore.dart';
+import 'package:zekryptofolio/services/supabase_service.dart';
 import 'package:zekryptofolio/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +64,7 @@ class _AppState extends State<App> {
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return StreamProvider(
-            create: (_) => FirestoreService().streamFavourite(),
+            create: (_) => SupabaseService().streamFavourite(),
             initialData: const {"favourites": []},
             child: MaterialApp(routes: appRoutes, theme: darkTheme),
           );

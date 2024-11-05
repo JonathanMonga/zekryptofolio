@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:zekryptofolio/services/api.dart';
 
-import '../services/firestore.dart';
+import '../services/supabase_service.dart';
 
 class TransactionsForm extends StatefulWidget {
   final Map coin;
@@ -165,11 +165,12 @@ class _TransactionsFormState extends State<TransactionsForm> {
 
                     _formKey.currentState!.save();
 
-                    FirestoreService().addTransaction(
-                        widget.coin["id"],
-                        widget.coin["image"],
-                        _amount!,
-                        widget.coin["current_price"] + 0.0,);
+                    SupabaseService().addTransaction(
+                      widget.coin["id"],
+                      widget.coin["image"],
+                      _amount!,
+                      widget.coin["current_price"] + 0.0,
+                    );
 
                     Navigator.pushNamedAndRemoveUntil(
                       context,

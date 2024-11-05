@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zekryptofolio/portfolio/transactions_item.dart';
 import 'package:zekryptofolio/services/api.dart';
-import 'package:zekryptofolio/services/firestore.dart';
+import 'package:zekryptofolio/services/supabase_service.dart';
 
 import '../shared/error.dart';
 
@@ -16,7 +16,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List>(
-        future: FirestoreService().getTransactions(),
+        future: SupabaseService().getTransactions(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

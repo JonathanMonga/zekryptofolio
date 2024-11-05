@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:zekryptofolio/services/api.dart';
 
 import 'package:zekryptofolio/market/market_item.dart';
-import 'package:zekryptofolio/services/firestore.dart';
+import 'package:zekryptofolio/services/supabase_service.dart';
 import 'package:zekryptofolio/shared/error.dart';
 
 class FavouriteScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-        future: FirestoreService().getFavourites(),
+        future: SupabaseService().getFavourites(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:zekryptofolio/market/line_chart.dart';
 import 'package:zekryptofolio/portfolio/transactions_form.dart';
-import 'package:zekryptofolio/services/firestore.dart';
+import 'package:zekryptofolio/services/supabase_service.dart';
 
 class CoinScreen extends StatefulWidget {
   final Map coin;
@@ -67,10 +67,10 @@ class _CoinScreenState extends State<CoinScreen> {
                     child: ElevatedButton(
                         onPressed: () {
                           if (isAFavourite) {
-                            FirestoreService()
+                            SupabaseService()
                                 .removeFavourite(widget.coin["id"]);
                           } else {
-                            FirestoreService().addFavourite(widget.coin["id"]);
+                            SupabaseService().addFavourite(widget.coin["id"]);
                           }
                         },
                         style: ElevatedButton.styleFrom(

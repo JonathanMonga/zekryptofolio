@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import "package:flutter/material.dart";
 import 'package:random_color/random_color.dart';
-import 'package:zekryptofolio/services/firestore.dart';
+import 'package:zekryptofolio/services/supabase_service.dart';
 import 'package:zekryptofolio/services/api.dart';
 import 'package:zekryptofolio/values/app_colors.dart';
 
@@ -20,7 +20,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-        future: FirestoreService().getSummaries(),
+        future: SupabaseService().getSummaries(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
