@@ -1,33 +1,22 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:zekryptofolio/main.dart';
+import 'package:zekryptofolio/model/favourite.dart';
 
 class SupabaseService {
   final currentUser = Supabase.instance.client.auth.currentUser;
 
-  Future<List<Map<String, dynamic>>> getFavourites() async {
-    try {
-      return Supabase.instance.client
-          .from('favourites')
-          .select()
-          .eq("user_id", currentUser!.id);
-    } catch (error) {
-      return [];
-    }
+  Stream<List<Favourite>> getFavourites() {
+    return objectbox.getFavourites();
   }
 
   void addFavourite(String coin) async {
-    await Supabase.instance.client
-        .from('favourites')
-        .insert({'coins': coin, 'user_id': currentUser!.id});
+    objectbox.addFavourite(coin);
   }
 
-  void removeFavourite(String id) async {
-    await Supabase.instance.client
-        .from('favourites')
-        .delete()
-        .eq('coins', id)
-        .eq("user_id", currentUser!.id);
+  void removeFavourite(int id) async {
+    objectbox.removeFavourite(id);
   }
 
   Future<List<Map<String, dynamic>>> getSummaries([String coinID = ""]) async {

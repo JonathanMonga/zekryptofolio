@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:zekryptofolio/model/objectbox.dart';
 import 'package:zekryptofolio/routes.dart';
 import 'package:zekryptofolio/services/supabase_service.dart';
 import 'package:zekryptofolio/theme.dart';
 import 'package:provider/provider.dart';
+
+/// Provides access to the ObjectBox Store throughout the app.
+late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,9 +17,12 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
   );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (_) => runApp(App()),
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  ObjectBox.create().then((box) {
+    objectbox = box;
+    runApp(App());
+  });
 }
 
 /// We are using a StatefulWidget such that we only create the [Future] once,

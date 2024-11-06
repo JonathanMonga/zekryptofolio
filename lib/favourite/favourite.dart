@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:zekryptofolio/model/favourite.dart';
 import 'package:zekryptofolio/services/api.dart';
 
 import 'package:zekryptofolio/market/market_item.dart';
@@ -15,8 +16,8 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-        future: SupabaseService().getFavourites(),
+    return StreamBuilder<List<Favourite>>(
+        stream: SupabaseService().getFavourites(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -26,7 +27,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             );
           } else if (snapshot.hasData) {
             var data =
-                snapshot.data!.map((toElement) => toElement["coins"]).toList();
+                snapshot.data!.map((toElement) => toElement.coin).toList();
             return FutureBuilder<List>(
                 future: Api().fetchMarketData(coins: data),
                 builder: (context, snapshot) {

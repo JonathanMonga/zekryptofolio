@@ -377,7 +377,7 @@ class _AuthPageState extends State<AuthPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Login',
+                              'Zekrypto',
                               style: GoogleFonts.poppins(
                                 color: isDarkMode ? Colors.white : Colors.black,
                                 fontSize: size.height * 0.045,
@@ -385,7 +385,7 @@ class _AuthPageState extends State<AuthPage> {
                               ),
                             ),
                             Text(
-                              '+',
+                              'folio',
                               style: GoogleFonts.poppins(
                                 color: const Color(0xff3b22a1),
                                 fontSize: size.height * 0.06,
