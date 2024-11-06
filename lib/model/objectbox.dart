@@ -31,8 +31,7 @@ class ObjectBox {
   void _putDemoData() {
     final demoFavourites = [
       Favourite('bitcoin'),
-      Favourite('etherum'),
-      Favourite('solana')
+      Favourite('solana'),
     ];
     _favouriteBox.putManyAsync(demoFavourites);
   }

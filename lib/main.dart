@@ -19,8 +19,7 @@ Future<void> main() async {
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  ObjectBox.create().then((box) {
-    objectbox = box;
+  objectbox = await ObjectBox.create().whenComplete((){
     runApp(App());
   });
 }
