@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zekryptofolio/favourite/favourite.dart';
+import 'package:zekryptofolio/login/auth_page.dart';
 import 'package:zekryptofolio/login/login_screen.dart';
 import 'package:zekryptofolio/market/market.dart';
 import 'package:zekryptofolio/portfolio/portfolio.dart';
@@ -35,13 +36,13 @@ class _HomeState extends State<HomeScreen> {
                       !snapshot.data!.session!.isExpired) {
                     return const MainScreen();
                   } else {
-                    return const LoginScreen();
+                    return const AuthPage();
                   }
                 }
               case AuthChangeEvent.signedIn:
                 return const MainScreen();
               case AuthChangeEvent.signedOut:
-                return const LoginScreen();
+                return const AuthPage();
               case AuthChangeEvent.passwordRecovery:
                 return const MainScreen();
               case AuthChangeEvent.tokenRefreshed:
@@ -49,14 +50,14 @@ class _HomeState extends State<HomeScreen> {
               case AuthChangeEvent.userUpdated:
                 return const MainScreen();
               case AuthChangeEvent.userDeleted:
-                return const LoginScreen();
+                return const AuthPage();
               case AuthChangeEvent.mfaChallengeVerified:
-                return const LoginScreen();
+                return const AuthPage();
               default:
-                return const LoginScreen();
+                return const AuthPage();
             }
           } else {
-            return const LoginScreen();
+            return const AuthPage();
           }
         });
   }
