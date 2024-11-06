@@ -283,16 +283,16 @@ class PieChartState extends State<PortfolioPieChart> {
           PieChartData(
             pieTouchData: PieTouchData(
               touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                setState(() {
-                  if (!event.isInterestedForInteractions ||
-                      pieTouchResponse == null ||
-                      pieTouchResponse.touchedSection == null) {
-                    touchedIndex = -1;
-                    return;
-                  }
-                  touchedIndex =
-                      pieTouchResponse.touchedSection!.touchedSectionIndex;
-                });
+                // setState(() {
+                //   if (!event.isInterestedForInteractions ||
+                //       pieTouchResponse == null ||
+                //       pieTouchResponse.touchedSection == null) {
+                //     touchedIndex = -1;
+                //     return;
+                //   }
+                //   touchedIndex =
+                //       pieTouchResponse.touchedSection!.touchedSectionIndex;
+                // });
               },
             ),
             borderData: FlBorderData(
@@ -322,7 +322,7 @@ class PieChartState extends State<PortfolioPieChart> {
 
       final fontSize = isTouched ? 20.0 : 16.0;
       final radius = isTouched ? 130.0 : 120.0;
-      final widgetSize = isTouched ? 65.0 : 50.0;
+      final widgetSize = isTouched ? 65.0 : 45.0;
       const shadows = [Shadow(color: Colors.black, blurRadius: 5)];
 
       pieChartSection.add(
