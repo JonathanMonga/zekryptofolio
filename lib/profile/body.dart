@@ -25,26 +25,21 @@ class Body extends StatelessWidget {
         ),
       ),
       body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/Background_base.jpg'),
-            fit: BoxFit.cover,
-          )),
           child: ListView(
-            children: [
-              const SizedBox(height: 20),
-              Button(
-                color: const Color.fromARGB(255, 221, 75, 75),
-                icon: FontAwesomeIcons.signInAlt,
-                text: "Log out",
-                press: () async {
-                  await AuthService().signOut();
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/', (route) => false);
-                },
-              ),
-            ],
-          )),
+        children: [
+          const SizedBox(height: 20),
+          Button(
+            color: const Color.fromARGB(255, 221, 75, 75),
+            icon: FontAwesomeIcons.signInAlt,
+            text: "Log out",
+            press: () async {
+              await AuthService().signOut();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/', (route) => false);
+            },
+          ),
+        ],
+      )),
     );
   }
 }

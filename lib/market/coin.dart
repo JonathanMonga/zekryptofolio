@@ -42,11 +42,6 @@ class _CoinScreenState extends State<CoinScreen> {
               ],
             )),
         body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/Background_base.jpg'),
-            fit: BoxFit.cover,
-          )),
           child: ListView(
             children: <Widget>[
               Container(

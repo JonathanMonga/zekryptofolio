@@ -64,11 +64,6 @@ class _MarketScreenState extends State<MarketScreen> {
                   automaticallyImplyLeading: false,
                 ),
                 body: Container(
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage('assets/Background_base.jpg'),
-                    fit: BoxFit.cover,
-                  )),
                   child: RefreshIndicator(
                     onRefresh: () async {
                       setState(() {});

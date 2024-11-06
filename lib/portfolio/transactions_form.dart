@@ -99,11 +99,6 @@ class _TransactionsFormState extends State<TransactionsForm> {
             backgroundColor: const Color.fromARGB(255, 33, 33, 33),
             title: const Text("New transaction")),
         body: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/Background_base.jpg'),
-            fit: BoxFit.cover,
-          )),
           child: Form(
             key: _formKey,
             child: Padding(

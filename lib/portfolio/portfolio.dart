@@ -50,7 +50,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                   ),
                   body: const Center(
                       child: Text(
-                    "You do not have any transaction yet!",
+                    "Ajouter des criptos a votre portofolio!",
                     textDirection: TextDirection.ltr,
                   )));
             }
@@ -328,7 +328,7 @@ class PieChartState extends State<PortfolioPieChart> {
       pieChartSection.add(
         PieChartSectionData(
           color: colors[i],
-          value: summary[i]["total"] + 0.0,
+          value: ((summary[i]["total"] / totalValue) * 100),
           title: ((summary[i]["total"] / totalValue) * 100).toStringAsFixed(2) +
               "%",
           radius: radius,

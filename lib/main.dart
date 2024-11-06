@@ -13,15 +13,14 @@ late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  objectbox = await ObjectBox.create();
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  objectbox = await ObjectBox.create().whenComplete((){
-    runApp(App());
-  });
+  runApp(App());
 }
 
 /// We are using a StatefulWidget such that we only create the [Future] once,
