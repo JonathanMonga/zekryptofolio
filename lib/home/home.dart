@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zekryptofolio/favourite/favourite.dart';
 import 'package:zekryptofolio/login/auth_page.dart';
-import 'package:zekryptofolio/login/login_screen.dart';
 import 'package:zekryptofolio/market/market.dart';
 import 'package:zekryptofolio/portfolio/portfolio.dart';
 import 'package:zekryptofolio/profile/profile.dart';
